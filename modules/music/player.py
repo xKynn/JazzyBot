@@ -366,7 +366,9 @@ class Player:
             info = await self.bot.downloader.extract_info(self.bot.loop, song_url, download = False, process=True,retry_on_error=True)
             entry,position = self.playlist.add(song_url,self.bot.user,self.current_entry['channel'],info['title'],info['duration'],'None',info['thumbnail'])
 
-            await self.current_entry['channel'].send('**:musical_score: Autoplay:** **%s** has been queued to be played.' % entry['title'])
+            ap_msg = await self.current_entry['channel'].send('**:musical_score: Autoplay:** **%s** has been queued to be played.' % entry['title'])
+            await asyncio.sleep(7)
+            await ap_msg.delete()
 
         await self.prepare_entry(position-1)
 
