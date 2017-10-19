@@ -57,12 +57,12 @@ class Player:
 
 
     async def prepare_entry(self,ind=None):
-        '''
+        """
         Download/Prepare/Play entries while maintaining sync between the queue,
         a lock is requested before adding play to the loop, so that in
         no case will the voice client be requested to play two AudioSources
         at once. 'ind' is the index of the entry to be prepared/played
-        '''
+        """
         if self.death:
             return
 
@@ -94,10 +94,10 @@ class Player:
                         else:
                             pass
 
-                    '''
+                    """
                     The filename key isn't added unless an entry passes through this code, so if it doesn't exist, 
                     download and add the key, this prevents downloading of any entry more than once
-                    '''
+                    """
                     if not 'filename' in entry.keys():
 
                         entry['status'] = 'processing'
@@ -124,12 +124,12 @@ class Player:
 
                         entry['filename'] = fn
 
-                    '''
+                    """
                     This has some leftover part from async, but basically, only if we're stopped or
                     switching tracks, latter being the only reason we are in prepare_entry through 
                     the player, also makes sure to keep the queue in sync by requesting for player's
                     lock before queueing play to the loop
-                    '''
+                    """
                     try:
                      if self.state in ['stopped','switching'] and not self.voice_client.is_playing():
                       print('\nwas stopped\n')
@@ -148,12 +148,12 @@ class Player:
 
 
     async def play(self,seek="00:00:00",seeksec=0):
-        '''
+        """
         Manage Effects, Volume and Seeking,
         makes the voice_client play an FFmpeg AudioSource
         'next' is provided as the functon to be called when
         the source is done playing
-        '''
+        """
         if self.death:
             return
  
@@ -180,13 +180,13 @@ class Player:
                 elif now['effect'] == 'c':
                     addon = ' -af pan="stereo|c0=c0|c1=-1*c1" -ac 1'
 
-                '''
+                """
                 The biggest problem for me in d.py rewrite, it has no encoder_options that let me set 
                 output channels to 1, allowing this phase cancellation karaoke to work, to remedy this,
                 this now processes a karoke_filename after processing the cancellation and it is saved
                 as a mono track, later when its loaded up into an AudioSource and played, the layout
                 is guessed as mono and Voila! Karaoke
-                '''
+                """
                 elif now['effect'] == 'k':
                     addon=""
                     onlyfiles = [f for f in listdir(self.mypath) if isfile(join(self.mypath, f))]
@@ -205,7 +205,7 @@ class Player:
                                 options="-vn -b:a 128k" + addon + volumestr + self.EQEffects[self.EQ])
 
 
-                '''
+                """
                 So it might seem like you can only set Equalizer and Volume once,
                 the code below facilitates changes at runtime all thanks to FFmpeg,
                 by keeping track of the original start time down to microseconds
@@ -213,7 +213,7 @@ class Player:
                 for their respective effect to True, telling the player to not move 
                 to the next track when the player is stopped. 'play' is then called
                 again with altered player attributes
-                '''
+                """
                 self.current_player = ytdl_player
                 self.current_entry = now
 
@@ -231,10 +231,10 @@ class Player:
                 if seek == "00:00:00" and not self.justvoledit:
                     self.bot.loop.create_task(self.manage_nowplaying())
 
-    '''
+    """
     Both 'pause' and 'resume' will set current_time so that using the
     NowPlaying command doesn't change time when the song isn't even playing
-    '''
+    """
     async def pause(self):
         self.state='paused'
         self.current_time = time.time()
@@ -259,12 +259,12 @@ class Player:
         np_embed.set_image(url = player.current_entry['thumb'])
         np_embed.set_author(name = 'Now Playing' , icon_url = player.current_entry['author'].avatar_url)
 
-        '''
+        """
         Check when the last now playing message was sent, so we can
         delete it if its older than the last message in that channel,
         if its the last message on that channel, we just edit it to 
         display new info
-        '''
+        """
         if self.current_entry['channel'].guild in self.bot.np_msgs:
             np_msg = self.bot.np_msgs[self.current_entry['channel'].guild]
             async for msg in self.current_entry['channel'].history(limit = 1):
@@ -282,11 +282,11 @@ class Player:
         except:
             self.bot.np_msgs[self.current_entry['channel'].guild] = await self.current_entry['channel'].send(embed = np_embed)
 
-    '''
+    """
     Having a normal function that adds an async function to the loop
     was my solution to not being able to pass an awaitable to 'after'
     in 'play', also returns when volume was changed of seeking was done.
-    '''
+    """
     def next(self,error):                                            
         print('in normal next')
         if self.death or self.state == "seeking" or self.justvoledit or self.justseeked:
@@ -296,12 +296,12 @@ class Player:
             return
         self.bot.loop.create_task(self.real_next())
 
-    '''
+    """
     Checks if there are more entries after our current index, if yes, increase index
     and call prepare_entry, but if repeat is set to True, the index won't change
     autoplay is always the last condition to be checked, so manually queued songs
     will be served before autoplay_manager is called
-    '''
+    """
     async def real_next(self):
         self.state = 'switching'
 
@@ -325,14 +325,14 @@ class Player:
              self.index += 1
             self.state = 'stopped' 
  
-    '''
+    """
     Following some minimal scraping, autoplay links are pulled
     at times this might be empty so we just get the other entries below it,
     Livestreams haven't been implemented yet and i wouldn't want a livestream
     to interrupt anyone's exploration of youtube either way, so a quick check
     if the live label exists on the item exists or not, the entry to be queued
     is determined.
-    '''
+    """
     async def autoplay_manager(self):
         if self.death:
             return
@@ -372,11 +372,11 @@ class Player:
 
         await self.prepare_entry(position-1)
 
-    '''
+    """
     Some redundant stuff below here, accu_progress is only used by
     effects that need to keep exact track of time, checks if we're paused
     if not then the real current_time is used.
-    '''
+    """
     @property
     def progress(self):
         if not self.state == 'paused':
