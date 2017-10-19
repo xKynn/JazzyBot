@@ -1,0 +1,657 @@
+normal:
+    - name: Leer
+      power: 3
+      acc: 100
+      type: stat
+      effect: def-
+      cost: 300 
+      level-req: 1
+    - name: Screech
+      power: 5
+      level-req: 1
+      acc: 85
+      type: stat
+      effect: def-
+      cost: 500
+    - name: Barrage
+      power: 15
+      level-req: 1
+      acc: 85
+      type: multihit
+      effect: 2,6
+      pp: 10
+      cost: 1500
+    - name: Bide
+      type: bide
+      pp: 5
+      level-req: 1
+      cost: 3000
+    - name: Body Slam
+      type: dmg
+      acc: 100
+      power: 85
+      level-req: 1
+      pp : 7
+      cost: 2500
+    - name: Comet Punch
+      power: 18
+      level-req: 1
+      acc: 85
+      type: multihit
+      effect: 2,6
+      pp: 7
+      cost: 2700
+    - name: Cut
+      power: 50
+      type: dmg
+      level-req: 1
+      acc: 95
+      pp: 15
+      cost: 1000
+    - name: Defense Curl
+      power: 3
+      level-req: 1
+      type: stat
+      effect: def+
+      pp: 20
+      cost: 400
+    - name: Disable
+      type: disable
+      effect: 2
+      level-req: 1
+      pp: 10
+      acc: 100
+      cost: 2000
+    - name: Dizzy Punch
+      power: 70
+      level-req: 1
+      type: dmg
+      effect: confuse+
+      pp: 5
+      acc: 100
+      cost: 3500
+    - name: Double Team
+      power: 3
+      type: stat
+      level-req: 1
+      effect: ev+
+      pp: 7
+      cost: 500
+    - name: Double-Edge
+      power: 120
+      type: dmg
+      level-req: 1
+      effect: self-dmg
+      pp: 7
+      acc: 100
+      cost: 6000
+    - name: Flash
+      power: 3
+      type: stat
+      effect: acc-
+      level-req: 1
+      pp: 10
+      acc: 100
+      cost: 400
+    - name: Growl
+      power: 3
+      type: stat
+      level-req: 1
+      effect: atk-
+      pp: 20
+      acc: 100
+      cost: 400
+    - name: Glare
+      type: status
+      effect: paralyze
+      pp: 15
+      level-req: 1
+      acc: 100
+      cost: 800
+    - name: Hyper Beam
+      type: dmg
+      acc: 90
+      level-req: 1
+      effect: turn-skip-
+      power: 150
+      pp : 2
+      cost: 4500
+    - name: Hyper Fang
+      type: dmg
+      acc: 90
+      level-req: 1
+      effect: turn-skip+
+      power: 80
+      pp : 7
+      cost: 2800
+    - name: Lovely Kiss
+      type: status
+      acc: 75
+      level-req: 1
+      effect: sleep+
+      pp : 5
+      cost: 1800
+    - name: Mimic
+      type: mimic
+      pp : 5
+      level-req: 1
+      cost: 3000
+    - name: Minimize
+      type: stat
+      effect: ev+
+      level-req: 1
+      power: 5
+      pp : 5
+      cost: 2200
+    - name: Scratch
+      type: dmg
+      acc: 100
+      level-req: 1
+      power: 40
+      pp : 16
+      cost: 800
+    - name: Sharpen
+      type: stat
+      effect: atk+
+      level-req: 1
+      power: 2
+      pp : 15
+      cost: 600
+    - name: Slam
+      type: dmg
+      acc: 75
+      level-req: 1
+      power: 80
+      pp : 10
+      cost: 2300
+    - name: Super Fang
+      type: super fang
+      acc: 90
+      level-req: 1
+      pp : 5
+      cost: 1200
+    - name: Swords Dance
+      type: stat
+      power: 5
+      level-req: 1
+      effect: atk+
+      pp: 5
+      cost: 1300
+    - name: Wrap
+      type: status
+      acc: 90
+      effect: bind
+      level-req: 1
+      power: 15
+      pp : 10
+      cost: 1000
+fire:
+    - name: Ember
+      type: dmg
+      acc:  100
+      level-req: 1
+      power: 40
+      effect: burn
+      pp : 12
+      cost: 1200
+    - name: Fire Blast
+      type: dmg
+      acc: 85
+      level-req: 1
+      power: 110
+      effect: burn
+      pp : 2
+      cost: 6000
+    - name: Fire Punch
+      type: dmg
+      acc: 100
+      level-req: 1
+      power: 75
+      effect: burn
+      pp : 7
+      cost: 3500
+    - name: Fire Spin
+      type: dmg
+      acc: 85
+      level-req: 1
+      power: 35
+      effect: fire spin
+      pp : 7
+      cost: 4500
+water:
+    - name: Bubble
+      type: dmg
+      acc: 100
+      power: 40
+      level-req: 1
+      pp : 15
+      cost: 800
+    - name: Bubble Beam
+      type: dmg
+      acc: 100
+      power: 65
+      pp : 10
+      level-req: 1
+      cost: 1500
+    - name: Clamp
+      type: status
+      acc: 85
+      power: 35
+      effect: bind
+      level-req: 1
+      pp : 5
+      cost: 2000
+    - name: Hydro Pump
+      type: dmg
+      acc: 80
+      level-req: 1
+      power: 110
+      pp : 2
+      cost: 6000
+    - name: Waterfall
+      type: dmg
+      acc: 100
+      level-req: 1
+      power: 80
+      effect: turn-skip+
+      pp : 7
+      cost: 4000
+electric:
+    - name: Thunder
+      type: dmg
+      acc: 70
+      level-req: 1
+      power: 110
+      effect: paralyze
+      pp : 5
+      cost: 7000
+    - name: Thunder Punch
+      type: dmg
+      acc: 100
+      power: 75
+      level-req: 1
+      effect: paralyze
+      pp : 7
+      cost: 5000
+    - name: Thunder Wave
+      type: status
+      acc: 90
+      effect: paralyze
+      pp : 10
+      cost: 2000
+      level-req: 1
+grass:
+    - name: Absorb
+      type: dmg
+      acc: 100
+      power: 20
+      effect: heal
+      level-req: 1
+      pp : 12
+      cost: 1800
+    - name: Leech Seed
+      type: leech seed
+      acc: 90
+      power: 0.125
+      pp : 5
+      level-req: 1
+      cost: 2500
+    - name: Mega Drain
+      type: dmg
+      acc: 100
+      level-req: 1
+      power: 40
+      effect: heal
+      pp : 7
+      cost: 3500
+    - name: Solar Beam
+      type: charge-attack
+      acc: 100
+      level-req: 1
+      power: 120
+      pp : 5
+      cost: 5000
+    - name: Spore
+      type: status
+      acc: 100
+      effect: sleep
+      pp : 7
+      level-req: 1
+      cost: 4000
+    - name: Sleep Powder
+      type: status
+      acc: 75
+      level-req: 1
+      effect: sleep
+      pp : 7
+      cost: 2000
+    - name: Stun Spore
+      type: status
+      acc: 75
+      level-req: 1
+      effect: paralyze
+      pp : 15
+      cost: 1200
+    - name: Vine Whip
+      type: dmg
+      acc: 100
+      level-req: 1
+      power: 45
+      pp : 12
+      cost: 800
+ice:
+    - name: Aurora Beam
+      type: dmg
+      acc: 100
+      level-req: 1
+      power: 65
+      effect: atk-
+      pp : 10
+      cost: 4000
+    - name: Blizzard
+      type: dmg
+      acc: 70
+      power: 110
+      level-req: 1
+      effect: freeze
+      pp : 2
+      cost: 7000
+    - name: Haze
+      type: Haze
+      pp : 15
+      level-req: 1
+      cost: 1000
+    - name: Ice Beam
+      type: dmg
+      acc: 100
+      level-req: 1
+      power: 90
+      effect: freeze
+      pp : 5
+      cost: 5500
+fighting:
+    - name: Counter
+      type: counter
+      acc: 100
+      level-req: 1
+      pp : 10
+      cost: 1300
+    - name: Double Kick 
+      type: multihit
+      acc: 100
+      power: 30
+      level-req: 1
+      effect: 2
+      pp : 15
+      cost: 1500
+    - name: Rolling Kick 
+      type: dmg
+      acc: 85
+      power: 60
+      effect: turn-skip+
+      pp : 7
+      level-req: 1
+      cost: 1000
+    - name: Submission 
+      type: dmg
+      acc: 80
+      power: 80
+      level-req: 1
+      effect: self-dmg
+      pp : 10
+      cost: 3000
+poison:
+    - name: Acid 
+      type: dmg
+      acc: 100
+      power: 40
+      level-req: 1
+      effect: def-
+      pp : 15
+      cost: 1500
+    - name: Acid Armor 
+      type: stat
+      power: 5
+      level-req: 1
+      effect: def+
+      pp : 10
+      cost: 800
+    - name: Poison Gas 
+      type: status
+      acc: 90
+      level-req: 1
+      effect: poison 
+      pp : 20
+      cost: 1500
+    - name: Poison Powder
+      type: status
+      level-req: 1
+      acc: 75
+      effect: poison 
+      pp : 17
+      cost: 1000
+    - name: Poison Sting
+      type: dmg
+      acc: 100
+      level-req: 1
+      power: 15
+      effect: poison
+      pp : 17
+      cost: 1800
+    - name: Sludge 
+      type: dmg
+      acc: 100
+      power: 65
+      level-req: 1
+      effect: poison
+      pp : 10
+      cost: 2500
+    - name: Toxic
+      type: status
+      level-req: 1
+      acc: 90
+      effect: badly-poison
+      pp : 5
+      cost: 3500
+ground:
+     - name: Bone Club
+       type: dmg
+       acc: 85
+       level-req: 1
+       power: 65
+       effect: turn-skip+
+       pp : 10
+       cost: 2300
+     - name: Bonemerang
+       type: multihit
+       acc: 90
+       level-req: 1
+       power: 50
+       effect: 2,2
+       pp : 5
+       cost: 5500
+     - name: Dig
+       type: hide-attack
+       acc: 100
+       power: 80
+       level-req: 1
+       pp : 5
+       cost: 4500
+     - name: Earthquake
+       type: dmg
+       acc: 100
+       power: 100
+       level-req: 1
+       pp : 5
+       cost: 6000
+flying:
+     - name: Drill Peck
+       type: dmg
+       acc: 100
+       power: 80
+       level-req: 1
+       pp : 10
+       cost: 4000
+     - name: Fly 
+       type: hide-attack
+       acc: 95
+       power: 90
+       pp : 7
+       level-req: 1
+       cost: 5000
+     - name: Gust
+       type: dmg
+       acc: 100
+       power: 40
+       pp : 17
+       cost: 1300
+       level-req: 1
+     - name: Mirror Move
+       type: mirror move
+       pp : 10
+       cost: 2800
+       level-req: 1
+     - name: Peck
+       level-req: 1
+       type: dmg
+       acc: 100 
+       power: 35
+       pp : 17
+       cost: 1000
+     - name: Sky Attack
+       type: charge-attack
+       acc: 90
+       level-req: 1
+       power: 140
+       pp : 2
+       cost: 7000
+     - name: Wing Attack
+       type: dmg
+       level-req: 1
+       acc: 100
+       power: 60
+       pp : 17
+       cost: 2500
+psychic:
+     - name: Barrier
+       type: stat
+       level-req: 1
+       power: 5
+       effect: def+
+       pp : 10
+       cost: 1300
+     - name: Confusion
+       type: dmg
+       acc: 100
+       level-req: 1
+       power: 50
+       effect: confuse+
+       pp : 12
+       cost: 2000
+     - name: Dream Eater
+       type: dmg
+       level-req: 1
+       acc: 100
+       power: 100
+       effect: dream eater
+       pp : 7
+       cost: 4500
+     - name: Hypnosis
+       type: status
+       acc: 60
+       level-req: 1
+       effect: sleep+
+       pp : 10
+       cost: 1500
+     - name: Meditate
+       type: stat
+       level-req: 1
+       effect: atk+
+       pp : 20
+       cost: 800
+     - name: Psybeam
+       type: dmg
+       acc: 100
+       level-req: 1
+       power: 65
+       effect: confuse+
+       pp : 10
+       cost: 3000
+     - name: Rest
+       level-req: 1
+       type: rest
+       pp : 5
+       cost: 2300
+bug:
+     - name: Leech Life
+       type: dmg
+       effect: heal
+       level-req: 1
+       power: 80
+       acc: 100
+       pp: 5  
+       cost: 5000
+     - name: Pin Missile
+       type: multihit
+       effect: 2,6
+       level-req: 1
+       power: 25
+       acc: 95
+       pp: 10
+       cost: 6000
+     - name: Twineedle
+       type: dmg
+       power: 50
+       level-req: 1
+       effect: poison
+       acc: 100
+       pp: 10
+       cost: 1500
+rock:
+     - name: Rock Slide
+       type: dmg
+       level-req: 1
+       effect: turn-skip+
+       power: 75
+       acc: 90
+       pp: 5
+       cost: 3000
+     - name: Rock Throw
+       type: dmg
+       level-req: 1
+       power: 50
+       acc: 90
+       pp: 7
+       cost: 1300
+ghost:
+     - name: Confuse Ray
+       type: status
+       effect: confuse+
+       acc: 100
+       level-req: 1
+       pp: 5
+       cost: 1500
+     - name: Lick
+       type: dmg
+       effect: paralyze
+       power: 30
+       level-req: 1
+       acc: 100
+       pp: 15
+       cost: 1800
+dragon:
+     - name: Dragon Rage
+       type: dragon rage
+       acc: 100
+       level-req: 1
+       pp: 5
+       cost: 5000
+dark:
+     - name: Bite 
+       type: dmg
+       level-req: 1
+       effect: turn-skip+
+       power: 60
+       acc: 100
+       pp: 13
+       cost: 2500
