@@ -1,5 +1,7 @@
 import asyncio
 import discord
+discord.abc.Messageable.send.__kwdefaults__['delete_after'] = 7
+print(discord.abc.Messageable.send.__kwdefaults__['delete_after'])
 import aiohttp
 import inspect
 import sys
