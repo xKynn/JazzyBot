@@ -1,25 +1,21 @@
-import asyncio
-import discord
-import aiohttp
-import traceback
-import random
-import requests
-import bs4
 from modules.base.command import Command
-from modules.music import player,playlist
+from modules.utils.decorators import needsvoice
 class Autoplay(Command):
     name = "autoplay"
     alts = []
-    helpstring ="""Start the bot's autoplay function:\nYouTube autoplay based on last queued song.
-      This starts queueing videos that would appear on the right side of the YouTube recommendations automatically based on the last song you queued.
-      use <prefix>autoplay stop , to stop autoplay"""
+    oneliner = "Auto queue songs based on the last song in queue"
+    help = "The command works like a toggle, so if you turned autoplay on by using `<prefix>autoplay`, using the same command again will disable it."
+    examples = "`<prefix>autoplay` - Turns autoplay on"
+    options = "None"
+
     @staticmethod
+    @needsvoice
     async def main(bot, message):
         player = bot.players[message.guild]
         command = '%sautoplay ' % bot.prefix
-        if message.content[len(command):].lower() == 'stop':
+        if player.autoplay:
             player.autoplay = False
-            await message.channel.send("**:musical_score: Autoplay:** Stopped")
+            await message.channel.send("**:musical_score: Autoplay:** Stopped", delete_after=None)
         else:
             player.autoplay = True
-            await message.channel.send("**:musical_score: Autoplay:** Started")
+            await message.channel.send("**:musical_score: Autoplay:** Started", delete_after=None)

@@ -33,7 +33,7 @@ class Playlist(Command):
         d = bot.ses
         s = bot.ses
         uwu = bot.ses
-        if len(shlex.split(message.content)) == 1 or not shlex.split(message.content)[1] in ['dump','add','clear','play','reorder']:
+        if len(message.content.split()) == 1 or not message.content.split()[1] in ['dump','add','clear','play','reorder']:
             for user in d.query(User):
                 if int(message.author.id) == int(user.id):
                  if user.playlist == None:
@@ -63,10 +63,10 @@ class Playlist(Command):
                 else:
                     printlines[0].append(nextline)
                 counter += 1
-            if len(shlex.split(message.content)) == 1:
+            if len(message.content.split()) == 1:
                 pg_index = 1  #⬅  ➡
             else:
-                pg_index = int(shlex.split(message.content)[1])
+                pg_index = int(message.content.split()[1])
             total_pgs = len(printlines.keys())
             if pg_index < 1 or pg_index > total_pgs:
                 await SMexHandler.handle(bot,ServerManPrettyException( "Your playlist only has %s page(s)!\nPlease a supply a value between 1 and %s." % (total_pgs,total_pgs),"Invalid Value!", message.channel))
@@ -127,7 +127,7 @@ class Playlist(Command):
                             pass
                         pg_index += 1
                         continue
-        elif shlex.split(message.content)[1].lower() == 'dump':
+        elif message.content.split()[1].lower() == 'dump':
             full_deque = player.playlist.getlist()
             for user in d.query(User):
                 if int(message.author.id) == int(user.id):
@@ -157,8 +157,8 @@ class Playlist(Command):
                     d.execute(ex)
                     d.commit()
                     break
-        elif shlex.split(message.content)[1].lower() == 'add':
-            song_index = shlex.split(message.content)[2].lower()
+        elif message.content.split()[1].lower() == 'add':
+            song_index = message.content.split()[2].lower()
             if len(song_index)>3:
                 await message.channel.send("I never thought someone would make a playlist so big, but here you are, I just made a precautionary block for above 100, but well i might have to get rid of this, thanks, %s" % message.author.name)
                 return
@@ -189,7 +189,7 @@ class Playlist(Command):
                     d.execute(ex)
                     d.commit()
                     break
-        elif shlex.split(message.content)[1] == 'clear':
+        elif message.content.split()[1] == 'clear':
             await message.channel.send(":put_litter_in_its_place: Cleared!")
             for user in d.query(User):
                 if int(message.author.id) == int(user.id):
@@ -197,7 +197,7 @@ class Playlist(Command):
                     d.execute(ex)
                     d.commit()
                     break
-        elif shlex.split(message.content)[1] == 'play':
+        elif message.content.split()[1] == 'play':
             if not player:
                 try:
                     vc = bot.vc_clients[message.guild]
@@ -217,8 +217,8 @@ class Playlist(Command):
             for x in lst.keys():
                 track_names.append(lst[x][0])
                 track_urls.append(lst[x][1])
-            if '-' in shlex.split(message.content)[2].lower():
-                msg = shlex.split(message.content)[2]
+            if '-' in message.content.split()[2].lower():
+                msg = message.content.split()[2]
                 from_index = msg[:msg.find('-')]
                 to_index = msg[msg.find('-')+1:]
                 if not from_index.isdigit() and not to_index.isdigit():
@@ -235,11 +235,11 @@ class Playlist(Command):
                 if player.state == 'stopped':
                     bot.loop.create_task(player.prepare_entry())
                 await message.channel.send(":notes: Queued songs from **%s-%s**, from your saved playlist" % (from_index, to_index))
-            elif shlex.split(message.content)[2].lower()>0:
-                if not shlex.split(message.content)[2].isdigit():
+            elif message.content.split()[2].lower()>0:
+                if not message.content.split()[2].isdigit():
                     await message.channel.send("Please provide a number from your playlist to play")
                     return
-                play_index = int(shlex.split(message.content)[2])
+                play_index = int(message.content.split()[2])
                 await message.channel.send(":notes: Playing **%s**, from your saved playlist" % track_names[play_index-1])
                 info = await bot.downloader.extract_info(bot.loop, track_urls[play_index-1], download = False, process=False,retry_on_error=True)
                 entry, position = player.playlist.add(info['webpage_url'], message.author, message.channel,info['title'],info['duration'])
@@ -252,8 +252,8 @@ class Playlist(Command):
                     entry, position = player.playlist.add(info['webpage_url'], message.author, message.channel,info['title'],info['duration'])
                     if player.state == 'stopped':
                         bot.loop.create_task(player.prepare_entry())
-        elif shlex.split(message.content)[1] == 'reorder':
-            song_index = shlex.split(message.content)[2]
+        elif message.content.split()[1] == 'reorder':
+            song_index = message.content.split()[2]
             from_index = int(song_index.split('>')[0])
             to_index = int(song_index.split('>')[1])
             if len(song_index)>3:
@@ -278,11 +278,11 @@ class Playlist(Command):
                     d.execute(ex)
                     d.commit()
                     break
-        elif shlex.split(message.content)[1] == 'delete':
-            if not shlex.split(message.content)[2].isdigit():
+        elif message.content.split()[1] == 'delete':
+            if not message.content.split()[2].isdigit():
                 await message.channel.send("Please provide a number from your playlist to delete")
                 return
-            song_index = int(shlex.split(message.content)[2])
+            song_index = int(message.content.split()[2])
             for user in d.query(User):
                 if int(message.author.id) == user.id:
                     if user.playlist is None:

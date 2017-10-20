@@ -46,10 +46,10 @@ class Queue(Command):
         if not printlines[0]:
             printlines[0].append(
                 'Empty queue! Queue something with {}play.'.format(bot.prefix))
-        if len(shlex.split(message.content)) == 1:
+        if len(message.content.split()) == 1:
             pg_index = 1  #⬅  ➡
         else:
-            pg_index = shlex.split(message.content)[1]
+            pg_index = message.content.split()[1]
         if not isinstance(pg_index,int):
             return
         pg_index = int(pg_index)

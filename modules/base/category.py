@@ -4,5 +4,5 @@ import aiohttp
 import traceback
 from abc import ABC
 class Category(ABC):
-  name = str()
-  commands = []
+    name = str()
+    commands = []

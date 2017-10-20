@@ -5,21 +5,21 @@ from modules.utils.exceptionhandler import SMexHandler
 from modules.utils.embedsender import send
 import time
 import datetime
-import shlex
 class EQ(Command):
     name = "eq"
     alts = ["equalizer"]
-    helpstring ="""Apply preset equalizers! Choose from Pop, Classic, Jazz, Rock and Bass Boost
-          Usage:
-              <prefix>eq pop
-              <prefix>eq bassboost
-          """
+    oneliner = "Apply preset equalizers! Choose from Pop, Classic, Jazz, Rock and more"
+    help = "Once you've applied an Equalizer, it'll stay applied till the bot leaves your voice channel\nAlternatively you can apply the `normal` effect to reset your equalizer"
+    examples = "`<prefix>eq pop` - Apply the Pop Equalizer\n`<prefix>eq reset` - Reset Equalizer Settings"
+    options = "`normal` - No effects\n`pop`\n`classic`\n`jazz`\n`rock`\n`bb` - Bass Boost\n`vocals`"
+
     @staticmethod
     @needsvoice
     async def main(bot, message):
         effects = {'pop':'Pop','classic':'Classic','jazz':'Jazz','rock':'Rock','bb':'Bass Boost','normal':'Normal','vocals':'Vocals'}
         player = bot.players[message.guild]
-        eq = shlex.split(message.content)[1]
+        eq = message.content.split()[1]
+        eq = 'normal' if eq.lower() == 'reset' else eq
         if not eq.lower() in effects.keys():
             await SMexHandler.handle(bot,ServerManPrettyException( "%s, is not a valid EQ effect." % eq,"Invalid EQ effect!", message.channel))
             return

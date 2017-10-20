@@ -7,15 +7,16 @@ import shlex
 class Jump(Command):
     name = "jump"
     alts = ["pick"]
-    helpstring ="""Jump to a certain position in the queue and continue playing from there
-       Usage:
-       <prefix>jump <number>
-       """
+    oneliner = "Jump to any position in the current queue"
+    help = "You can use `<prefix>queue` to check where the player is and go back to any track in the queue"
+    examples = "`<prefix>jump 2` - If the bot was at 17 before, it will jump after the current song finishes playing and continue playing from 2, i.e 2, 3, 4.."
+    options = "None"
+
     @staticmethod
     async def main(bot, message):
         player = bot.players[message.guild]
         try:
-            pickno = int(shlex.split(message.content)[1])
+            pickno = int(message.content.split()[1])
         except:
             await SMexHandler.handle(bot,ServerManPrettyException( "","Invalid Input!", message.channel))
             return

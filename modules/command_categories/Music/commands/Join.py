@@ -3,10 +3,11 @@ from modules.base.command import Command
 class Join(Command):
     name = "join"
     alts = ["summon","init"]
-    helpstring ="""Call the bot to the your voice channel.
-          Usage:
-              <prefix>join
-          """
+    oneliner = "Manually call the bot to your voice channel"
+    help = "You can alternatively just use `<prefix>play songname` which will also summon the bot\nUntill the first track is requested a lot of the player features cannot be used."
+    examples = "`<prefix>join`"
+    options = "None"
+
     @staticmethod
     async def main(bot, message):
         np_embed = discord.Embed(title = 'Connecting...' , colour=0xffffff )

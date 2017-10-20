@@ -1,13 +1,9 @@
 import asyncio
 import discord
 import aiohttp
-import traceback
-import random
-import requests
 import bs4
 from urllib.parse import quote_plus
 from modules.base.command import Command
-from modules.music import player,playlist
 import shlex
 class Lyrics(Command):
     name = "lyrics"
@@ -24,15 +20,16 @@ class Lyrics(Command):
             noplayer = 1
         splitreq = False 
         genius_url = 'https://genius.com/search?q='
-        stripspace = ' '.join(shlex.split(message.content)[1:])
+        stripspace = ' '.join(message.content.split()[1:])
         if len(stripspace) < 2 and not noplayer:
             songname = player.current_entry['title']
         else:
             songname = stripspace
-        headers = {'Authorization': 'Bearer cUEbLMkIH6Wiw6A3M-yG4VFxyorTPE9ef9pwFiQFU4UhmeEuXewuFe9vGjGZC8-Q'}
-        response = requests.get("http://api.genius.com/search?q="+quote_plus(songname),headers=headers)
+        headers = {'Authorization': 'Bearer '+bot.config['genius_token']}
+        async with bot.aioses.get("http://api.genius.com/search?q="+quote_plus(songname),headers=headers) as resp:
+            response = await resp.json()
         output = list()
-        for a, b in enumerate(response.json()['response']['hits'][:4], 1):
+        for a, b in enumerate(response['response']['hits'][:4], 1):
             output.append('{} {}'.format(a, b['result']['full_title']))
         outputlist = '\n'.join(map(str,output))
         outputlist = '```Markdown\n' + outputlist + '\n' + '#Choose the appropriate result number or type exit to leave the menu\n' + '```'
@@ -52,8 +49,9 @@ class Lyrics(Command):
                 em = discord.Embed(title=':exclamation: Invalid choice', colour = 0xff3a38)
                 await message.channel.send(embed = em)
         await sent_msg.delete()
-        legit_lyrics = requests.get(chosen_song)
-        alphabetsoup = bs4.BeautifulSoup(legit_lyrics.text)
+        async with bot.aioses.get(chosen_song) as resp:
+            legit_lyrics = await resp.text()
+        alphabetsoup = bs4.BeautifulSoup(legit_lyrics)
         lyrics = [a.text for a in alphabetsoup.select('div.lyrics p')][0]
         counter=0
         for x in lyrics:

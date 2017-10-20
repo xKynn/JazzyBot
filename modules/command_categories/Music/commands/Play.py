@@ -24,15 +24,15 @@ class Play(Command):
         searchmode = 0
         options = 0
         try:
-            if '-rape' in shlex.split(message.content):
+            if '-rape' in message.content.split():
                 print('rape')
                 effect = 'rape'
-            elif '-c' in shlex.split(message.content):
+            elif '-c' in message.content.split():
                 print('chip')
                 effect = 'c'
-            elif '-k' in shlex.split(message.content):
+            elif '-k' in message.content.split():
                 effect = 'k'
-            if '-s' in shlex.split(message.content):
+            if '-s' in message.content.split():
                 searchmode = 1
         except:
             pass
@@ -57,10 +57,10 @@ class Play(Command):
             np_embed = discord.Embed(title = 'Bound to ' + message.author.voice.channel.name , description = 'summoned by **%s**' % message.author.mention, colour=0xffffff )
             np_embed.set_thumbnail(url = 'https://imgur.com/F95gtPV.png')
             await trying_msg.edit(embed = np_embed)
-        for n,item in enumerate(shlex.split(message.content)[1:],1):
+        for n,item in enumerate(message.content.split()[1:],1):
             if not item.startswith('-'):
                 break
-        song_name = ' '.join(shlex.split(message.content)[n:])
+        song_name = ' '.join(message.content.split()[n:])
         if message.guild in bot.players:
             vc = bot.vc_clients[message.guild]
             mplayer = bot.players[message.guild]

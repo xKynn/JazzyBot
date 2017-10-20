@@ -13,6 +13,9 @@ from os.path import isfile, join
 
 import subprocess
 
+import win_unicode_console
+win_unicode_console.enable()
+
 class Player:
     def __init__(self,bot,voice_client, playlist):
         self.bot = bot
@@ -106,7 +109,7 @@ class Player:
  
                         #Check if this has been previously downloaded, why waste bandwidth
                         if not fn.split(self.mypath + self.slash)[1] in onlyfiles:
-                            x = await entry['channel'].send("Caching **%s** :arrow_double_down:" % entry['title'])
+                            x = await entry['channel'].send("Caching **%s** :arrow_double_down:" % entry['title'], delete_after=None)
 
                             try:
                                 await self.bot.downloader.extract_info(self.bot.loop,entry['url'], download=True)
@@ -266,9 +269,9 @@ class Player:
             if self.bot.np_msgs[self.current_entry['channel'].guild]:
                 self.bot.np_msgs[self.current_entry['channel'].guild] = await self.bot.np_msgs[self.current_entry['channel'].guild].edit(embed = np_embed)
             else:
-               self.bot.np_msgs[self.current_entry['channel'].guild] = await self.current_entry['channel'].send(embed = np_embed)
+               self.bot.np_msgs[self.current_entry['channel'].guild] = await self.current_entry['channel'].send(embed = np_embed,delete_after=None)
         except:
-            self.bot.np_msgs[self.current_entry['channel'].guild] = await self.current_entry['channel'].send(embed = np_embed)
+            self.bot.np_msgs[self.current_entry['channel'].guild] = await self.current_entry['channel'].send(embed = np_embed, delete_after=None)
 
 
     # Having a normal function that adds an async function to the loop
@@ -302,12 +305,12 @@ class Player:
             self.bot.loop.create_task(self.prepare_entry(self.index))
 
         elif self.autoplay:
-             if not self.repeat:
+            if not self.repeat:
                 self.index += 1
             self.bot.loop.create_task(self.autoplay_manager())
  
         else:
-             self.index += 1
+            self.index += 1
             self.state = 'stopped' 
  
     # Following some minimal scraping, autoplay links are pulled
@@ -321,9 +324,9 @@ class Player:
             return
 
         with await self.download_lock:
-
-            response = requests.get(self.current_entry['url'])
-            soup = bs4.BeautifulSoup(response.text,"lxml")
+            async with self.bot.aioses.get(self.current_entry['url']) as resp:
+                response = await resp.text()
+            soup = bs4.BeautifulSoup(response,"lxml")
             autoplayitems = [a for a in soup.select('div.autoplay-bar div.content-wrapper')] #a[href^=/watch] a[title^=]
             altitems = [a for a in soup.select('ul#watch-related li div.content-wrapper')]
             altitems.insert(0,autoplayitems[0])
