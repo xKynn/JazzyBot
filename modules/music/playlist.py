@@ -55,11 +55,9 @@ class Playlist:
         return entry, len(self.entries)
 
 
-    """
-    This handles each entry in the youtube playlist, somewhat
-    asynchronously, the playlist is iterated over and add_pl_entry
-    is called for each entry
-    """
+    # This handles each entry in the youtube playlist, somewhat
+    # asynchronously, the playlist is iterated over and add_pl_entry
+    # is called for each entry
     async def async_pl(self, url, author, channel):
         info = await self.bot.downloader.extract_info(self.bot.loop, url, download = False, process=False,retry_on_error=True)
         print(info)
