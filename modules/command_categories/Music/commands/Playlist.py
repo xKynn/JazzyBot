@@ -1,12 +1,12 @@
 from modules.base.command import Command
-from modules.music import player,playlist
-from modules.utils.exceptions import ServerManPrettyException
-from modules.utils.exceptionhandler import SMexHandler
-from modules.utils.embedsender import send
-from modules.utils.db import User
-from modules.music import playlist
+from modules.music import player
 from modules.music import player as ply
-import shlex
+from modules.music import playlist
+from modules.music import playlist
+from modules.utils.db import User
+from modules.utils.embedsender import send
+from modules.utils.exceptionhandler import SMexHandler
+from modules.utils.exceptions import ServerManPrettyException
 class Playlist(Command):
     name = "playlist"
     alts = ["pl","mylist"]
@@ -74,7 +74,7 @@ class Playlist(Command):
             if total_pgs == 1 and pg_index == 1:
                 msg = ""
                 msg = '\n\n'.join(printlines[0])
-                await bmessage.channel.send('```py\n%s\nPage: 1/1\n```' % msg)
+                await message.channel.send('```py\n%s\nPage: 1/1\n```' % msg)
                 return
             while True:
                 msg = ""

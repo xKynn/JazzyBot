@@ -1,8 +1,8 @@
 from datetime import timedelta
 from modules.base.command import Command
-from modules.music import player,playlist
+from modules.music import player
+from modules.music import playlist
 from modules.utils.exceptionhandler import SMexHandler
-import shlex
 class Queue(Command):
     name = "queue"
     alts = ["list","q"]

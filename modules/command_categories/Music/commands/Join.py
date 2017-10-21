@@ -1,4 +1,5 @@
 import discord
+
 from modules.base.command import Command
 class Join(Command):
     name = "join"

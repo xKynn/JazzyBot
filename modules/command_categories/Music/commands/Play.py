@@ -1,9 +1,10 @@
 import discord
+
 from modules.base.command import Command
-from modules.music import player,playlist
+from modules.music import player
+from modules.music import playlist
 from modules.utils.decorators import needsvoice
 from modules.utils.ytsearch import ytsearch
-import shlex
 class Play(Command):
     name = "play"
     alts = ["pl"]
@@ -38,7 +39,6 @@ class Play(Command):
             pass
 
         if not message.guild in bot.vc_clients:
-            vc = None
             np_embed = discord.Embed(title = 'Connecting...' , colour=0xffffff )
             np_embed.set_thumbnail(url = 'https://i.imgur.com/DQrQwZH.png')
             trying_msg = await message.channel.send(embed = np_embed)
@@ -47,8 +47,9 @@ class Play(Command):
                 np_embed.set_thumbnail(url = 'https://imgur.com/B9YlwWt.png')
                 await trying_msg.edit(embed=np_embed)
                 return
-            vc = await message.author.voice.channel.connect(timeout=6.0,reconnect=True)
-            if not vc:
+            try:
+                vc = await message.author.voice.channel.connect(timeout=6.0,reconnect=True)
+            except:
                 np_embed = discord.Embed(title = 'Error',description = "Wasn't able to connect, please try again!" , colour=0xffffff )
                 np_embed.set_thumbnail(url = 'https://imgur.com/B9YlwWt.png')
                 await trying_msg.edit(embed=np_embed)
@@ -86,9 +87,9 @@ class Play(Command):
                 if not searchmode:
                     info = await bot.downloader.extract_info(bot.loop, 'ytsearch1:'+song_name, download = False, process=True,retry_on_error=True)
                     print(info['entries'][0]['thumbnails'])
-                    entry, position = mplayer.playlist.add(info['entries'][0]['webpage_url'], message.author, message.channel,info['entries'][0]['title'],info['entries'][0]['duration'],effect,info['entries'][0]['thumbnails'][0]['url'])
+                    entry, position = mplayer.playlist.add(info['entries'][0]['webpage_url'], message.author, message.channel,info['entries'][0]['title'],info['entries'][0]['duration'],effect,info['entries'][0]['thumbnails'][0]['url'],song_name)
                 else:
                     info = await ytsearch(bot,message,song_name)
-                    entry, position = mplayer.playlist.add(info['webpage_url'], message.author, message.channel,info['title'],info['duration'],effect,info['thumbnail'])
+                    entry, position = mplayer.playlist.add(info['webpage_url'], message.author, message.channel,info['title'],info['duration'],effect,info['thumbnail'],song_name)
                 await message.channel.send("**%s** was added to the queue at position %s, %s" % (entry['title'], position, mplayer.playlist.estimate_time(position,mplayer)))
             await mplayer.prepare_entry(position-1)

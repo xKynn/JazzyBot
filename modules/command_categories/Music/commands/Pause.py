@@ -1,5 +1,6 @@
 from modules.base.command import Command
-from modules.music import player,playlist
+from modules.music import player
+from modules.music import playlist
 class Pause(Command):
     name = "pause"
     alts = []

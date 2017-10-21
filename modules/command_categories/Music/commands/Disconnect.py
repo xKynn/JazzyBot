@@ -1,5 +1,5 @@
-from modules.utils.decorators import needsvoice
 from modules.base.command import Command
+from modules.utils.decorators import needsvoice
 
 class Disconnect(Command):
     name = "disconnect"
@@ -19,3 +19,6 @@ class Disconnect(Command):
         except:
            	pass
         await bot.vc_clients.pop(message.guild).disconnect()
+        em = discord.Embed(title="Disconnected",description="by "+message.author.mention)
+        em.set_image(url="https://i.imgur.com/BkrB9E3.png")
+        await message.chanel.send(embed=em)

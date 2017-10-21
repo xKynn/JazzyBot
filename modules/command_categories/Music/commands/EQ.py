@@ -1,10 +1,11 @@
+import datetime
+import time
+
 from modules.base.command import Command
 from modules.utils.decorators import needsvoice
-from modules.utils.exceptions import ServerManPrettyException
-from modules.utils.exceptionhandler import SMexHandler
 from modules.utils.embedsender import send
-import time
-import datetime
+from modules.utils.exceptionhandler import SMexHandler
+from modules.utils.exceptions import ServerManPrettyException
 class EQ(Command):
     name = "eq"
     alts = ["equalizer"]

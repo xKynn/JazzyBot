@@ -1,11 +1,8 @@
 import datetime
-import time
-import shlex
+
 from modules.base.command import Command
-from modules.music import player,playlist
-from modules.utils.exceptions import ServerManPrettyException
 from modules.utils.exceptionhandler import SMexHandler
-from modules.utils.embedsender import send
+from modules.utils.exceptions import ServerManPrettyException
 class Volume(Command):
     name = "volume"
     alts = ["vol"]

@@ -1,13 +1,14 @@
-import asyncio
-import discord
 import aiohttp
+import asyncio
 import bs4
-from urllib.parse import quote_plus
+import discord
+
 from modules.base.command import Command
-import shlex
+from urllib.parse import quote_plus
 class Lyrics(Command):
     name = "lyrics"
     alts = ["subtitles"]
+    oneliner = "Get lyrics"
     helpstring ="""Get lyrics for songs from www.genius.com
        provide song name for specific lyrics, currently playing song is searched by default
        """
@@ -31,8 +32,15 @@ class Lyrics(Command):
         output = list()
         for a, b in enumerate(response['response']['hits'][:4], 1):
             output.append('{} {}'.format(a, b['result']['full_title']))
+        if not output:
+            if songname == player.current_entry['title']:
+                msg = "No lyrics found! Try typing the name in manually."
+            else:
+                msg = "No lyrics found!"
+            await message.channel.send(msg)
+            return
         outputlist = '\n'.join(map(str,output))
-        outputlist = '```Markdown\n' + outputlist + '\n' + '#Choose the appropriate result number or type exit to leave the menu\n' + '```'
+        outputlist = '```Markdown\n' + outputlist + '\n' + "#Choose the appropriate result number or type 'exit' to leave the menu\n" + '```'
         sent_msg = await message.channel.send(outputlist)
         def check(m):
             return m.author == message.author and m.channel == message.channel

@@ -49,8 +49,9 @@ class Playlist:
             return "playing shortly!"
 
 
-    def add(self, url, author, channel,title, duration,effect,thumb):
-        entry = {'title':title,'duration': duration, 'url' : url,'author' : author,'channel' : channel,'lock':asyncio.Lock(),'effect': effect,'thumb':thumb}
+    def add(self, url, author, channel,title, duration,effect,thumb,search_query=None):
+        entry = {'title':title,'duration': duration, 'url' : url,'author' : author,'channel' : channel,'lock':asyncio.Lock(),'effect': effect,
+            'thumb':thumb, 'search_query' : title if not search_query else search_query}
         self.entries.append(entry)
         return entry, len(self.entries)
 

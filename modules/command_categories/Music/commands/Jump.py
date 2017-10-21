@@ -1,9 +1,8 @@
-from modules.base.command import Command
-from modules.utils.exceptions import ServerManPrettyException
-from modules.utils.exceptionhandler import SMexHandler
-from modules.utils.embedsender import send
 from datetime import timedelta
-import shlex
+from modules.base.command import Command
+from modules.utils.embedsender import send
+from modules.utils.exceptionhandler import SMexHandler
+from modules.utils.exceptions import ServerManPrettyException
 class Jump(Command):
     name = "jump"
     alts = ["pick"]

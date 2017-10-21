@@ -1,15 +1,14 @@
 import asyncio
 import discord
 discord.abc.Messageable.send.__kwdefaults__['delete_after'] = 7
-print(discord.abc.Messageable.send.__kwdefaults__['delete_after'])
 import aiohttp
-import inspect
-import sys
-import os
-import modules
-import traceback
 import importlib
+import inspect
 import json
+import modules
+import os
+import sys
+import traceback
 
 #Categories are managed by folder names and a category class in every folder
 categories = [d for d in os.listdir('modules/command_categories/') if os.path.isdir(os.path.join('modules/command_categories/', d)) and not d.startswith('_')]
@@ -19,7 +18,11 @@ for category in categories:
 
 import modules.music.downloader
 import modules.utils.db
-from modules.utils.db import User,ServerData,BGs, Session
+
+from modules.utils.db import BGs
+from modules.utils.db import ServerData
+from modules.utils.db import Session
+from modules.utils.db import User
 
 class JazzyBot(discord.Client):
     def __init__(self):
@@ -28,7 +31,7 @@ class JazzyBot(discord.Client):
         with open('config.json') as conf:
             self.config = json.load(conf)
 
-        self.aiosession = aiohttp.ClientSession(loop=self.loop)
+        self.aioses = aiohttp.ClientSession(loop=self.loop)
 
         #This is the sqlalchemy session used throughout the bot for transactions
         self.ses = Session()
