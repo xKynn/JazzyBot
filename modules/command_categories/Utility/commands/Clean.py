@@ -25,12 +25,12 @@ class Clean(Command):
                 except:
                     await message.channel.send("Messages older than 14 days couldn't be bulk deleted in regard to a discord limitation")
                 await message.channel.send('Cleaned up %s message(s).' % deleted)
-            else:
-                deleted = 0
-                async for msg in message.channel.history(search_range, before=message):
-                    if msg.author == bot.user or msg.content.startswith(bot.prefix):
-                        bot.loop.create_task(msg.delete())
-                        deleted += 1
-                        await asyncio.sleep(0.25)
-                await message.channel.send('Cleaned up %s message(s).' % deleted)
+        else:
+            deleted = 0
+            async for msg in message.channel.history(search_range, before=message):
+                if msg.author == bot.user or msg.content.startswith(bot.prefix):
+                    bot.loop.create_task(msg.delete())
+                    deleted += 1
+                    await asyncio.sleep(0.25)
+            await message.channel.send('Cleaned up %s message(s).' % deleted)
 
