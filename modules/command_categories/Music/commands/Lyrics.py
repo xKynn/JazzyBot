@@ -1,33 +1,35 @@
-import aiohttp
-import asyncio
 import bs4
 import discord
 
 from modules.base.command import Command
 from urllib.parse import quote_plus
+
+
 class Lyrics(Command):
     name = "lyrics"
     alts = ["subtitles"]
-    oneliner = "Get lyrics"
-    helpstring ="""Get lyrics for songs from www.genius.com
-       provide song name for specific lyrics, currently playing song is searched by default
-       """
+    oneliner = "Get lyrics for songs from Genius"
+    help = "You can get lyrics for the currently playing song by just using `<prefix>lyrics`"
+    examples = "`<prefix>`lyrics - While the bot is playing a song, this will pull up a list of 4 closest " \
+               "matches\n`<prefix>lyrics shape of you` - Regardless of the bot's state, get 4 closest matches for the " \
+               "lyrics of `shape of you`"
+    options = "None"
+
     @staticmethod
     async def main(bot, message):
-        noplayer=0
+        noplayer = 0
         try:
             player = bot.players[message.server]
-        except:
+        except KeyError:
             noplayer = 1
-        splitreq = False 
-        genius_url = 'https://genius.com/search?q='
+        splitreq = False
         stripspace = ' '.join(message.content.split()[1:])
         if len(stripspace) < 2 and not noplayer:
             songname = player.current_entry['title']
         else:
             songname = stripspace
-        headers = {'Authorization': 'Bearer '+bot.config['genius_token']}
-        async with bot.aioses.get("http://api.genius.com/search?q="+quote_plus(songname),headers=headers) as resp:
+        headers = {'Authorization': 'Bearer ' + bot.config['genius_token']}
+        async with bot.aioses.get("http://api.genius.com/search?q=" + quote_plus(songname), headers=headers) as resp:
             response = await resp.json()
         output = list()
         for a, b in enumerate(response['response']['hits'][:4], 1):
@@ -39,13 +41,15 @@ class Lyrics(Command):
                 msg = "No lyrics found!"
             await message.channel.send(msg)
             return
-        outputlist = '\n'.join(map(str,output))
+        outputlist = '\n'.join(map(str, output))
         outputlist = '```Markdown\n' + outputlist + '\n' + "#Choose the appropriate result number or type 'exit' to leave the menu\n" + '```'
         sent_msg = await message.channel.send(outputlist)
+
         def check(m):
             return m.author == message.author and m.channel == message.channel
+
         while True:
-            response_msg = await bot.wait_for('message',check=check,timeout=30)
+            response_msg = await bot.wait_for('message', check=check, timeout=30)
             if response_msg.content.lower() == 'exit':
                 await sent_msg.delete()
                 return
@@ -54,19 +58,19 @@ class Lyrics(Command):
                 chosen_song = response.json()['response']['hits'][chosen_number]['result']['url']
                 break
             except:
-                em = discord.Embed(title=':exclamation: Invalid choice', colour = 0xff3a38)
-                await message.channel.send(embed = em)
+                em = discord.Embed(title=':exclamation: Invalid choice', colour=0xff3a38)
+                await message.channel.send(embed=em)
         await sent_msg.delete()
         async with bot.aioses.get(chosen_song) as resp:
             legit_lyrics = await resp.text()
         alphabetsoup = bs4.BeautifulSoup(legit_lyrics)
         lyrics = [a.text for a in alphabetsoup.select('div.lyrics p')][0]
-        counter=0
+        counter = 0
         for x in lyrics:
             counter += 1
             if counter >= 1800:
-                 splitreq = True
-        if splitreq ==True:
+                splitreq = True
+        if splitreq == True:
             lyrics1 = lyrics[:1800]
             remaininglen = len(lyrics) - 1800
             lyrics2 = lyrics[remaininglen:]

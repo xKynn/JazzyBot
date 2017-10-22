@@ -1,8 +1,6 @@
-import asyncio
-import discord
-import aiohttp
-import traceback
 from abc import ABC, abstractmethod
+
+
 class Command(ABC):
     name = str()
     alts = list()
@@ -12,5 +10,5 @@ class Command(ABC):
     options = str()
 
     @abstractmethod
-    async def main():
+    async def main(*args, **kwargs):
         pass

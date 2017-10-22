@@ -8,6 +8,7 @@ import json
 import modules
 import os
 import sys
+import time
 import traceback
 
 #Categories are managed by folder names and a category class in every folder
@@ -73,7 +74,7 @@ class JazzyBot(discord.Client):
 
     async def on_message(self, message):
         await self.wait_until_ready()
-
+        start_time = time.time()
         #Check if a user is already in our database
         if not message.author.bot: 
             nouse = False
@@ -110,7 +111,7 @@ class JazzyBot(discord.Client):
                 except:
                     self.prefix = self.config['prefix']
         #If this isn't a server at all, set default prefix, when it's a DM
-        except Exception as e:
+        except Exception:
             self.prefix = self.config['prefix']
 
         if not message.content.startswith(self.prefix):
@@ -139,6 +140,6 @@ class JazzyBot(discord.Client):
             func_params['bot'] = self
         if params.pop('message',None):
             func_params['message'] = message
-
+        print(time.time()-start_time)
         await func(**func_params)
     

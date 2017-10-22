@@ -1,13 +1,14 @@
 from modules.base.command import Command
-from modules.music import player
-from modules.music import playlist
+
+
 class Pause(Command):
     name = "pause"
     alts = []
-    helpstring ="""Pauses playback of the current song.
-           Usage:
-               <prefix>pause
-           """
+    oneliner = "Pauses playback of the current song."
+    help = "You cannot switch entries while the player is paused"
+    examples = "`<prefix>pause`"
+    options = "None"
+
     @staticmethod
     async def main(bot, message):
         player = bot.players[message.guild]
