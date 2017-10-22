@@ -110,8 +110,8 @@ class JazzyBot(discord.Client):
                 except:
                     self.prefix = self.config['prefix']
         #If this isn't a server at all, set default prefix, when it's a DM
-        except:
-            self.prefix = r';'
+        except Exception as e:
+            self.prefix = self.config['prefix']
 
         if not message.content.startswith(self.prefix):
             return
@@ -132,27 +132,13 @@ class JazzyBot(discord.Client):
         if not func:
             return
 
-        #fetch params for func and populate func_params dict with the required params
+        # fetch params for func and populate func_params dict with the required params
         params = inspect.signature(func).parameters.copy()
         func_params = dict()
         if params.pop('bot',None):
             func_params['bot'] = self
         if params.pop('message',None):
             func_params['message'] = message
-        if params.pop('leftover_args',None):
-            func_params['leftover_args'] = args
-        args_expected = []
-        for key, param in list(params.items()):
-            doc_key = '[%s=%s]' % (key, param.default) if param.default is not inspect.Parameter.empty else key
-            args_expected.append(doc_key)
-            if not args and param.default is not inspect.Parameter.empty:
-                params.pop(key)
-                continue
-            if args:
-                arg_value = args.pop(0)
-                func_params[key] = arg_value
-                params.pop(key)
-
 
         await func(**func_params)
     
