@@ -102,7 +102,7 @@ class Player:
 
                     # The filename key isn't added unless an entry passes through this code, so if it doesn't exist, 
                     # download and add the key, this prevents downloading of any entry more than once
-                    if not 'filename' in entry.keys():
+                    if 'filename' not in entry.keys():
 
                         entry['status'] = 'processing'
                         result = await self.bot.downloader.extract_info(self.bot.loop, entry['url'], download=False)
@@ -120,10 +120,10 @@ class Player:
 
                             # If caching does error out, go to a previous index position
                             except:
-                                await x.edit(":negative_squared_cross_mark: Error caching **%s**" % entry['title'])
-                                self.playlist.entries.remove(entry)
-                                self.index -= 1
-                                self.bot.loop.create_task(self.real_next())
+                                # await x.edit(":negative_squared_cross_mark: Error caching **%s**" % entry['title'])
+                                # self.playlist.entries.remove(entry)
+                                # self.index -= 1
+                                # self.bot.loop.create_task(self.real_next())
                                 return
                             await x.edit(content="Done :white_check_mark:", delete_after=2.0)
 
@@ -136,12 +136,12 @@ class Player:
                     try:
                         if self.state in ['stopped', 'switching'] and not self.voice_client.is_playing():
                             print('\nwas stopped\n')
-                            with await self.lock:
+                            if not self.lock.locked():
                                 self.bot.loop.create_task(self.play())
                         else:
                             return
-                    except:
-                        with await self.lock:
+                    except AttributeError:
+                        if not self.lock.locked():
                             self.bot.loop.create_task(self.play())
 
             # We'll be here only when repeat is set to True, just skip everything and queue the same song
@@ -156,14 +156,15 @@ class Player:
         'next' is provided as the functon to be called when
         the source is done playing
         """
-        if self.death:
+        if self.death or self.voice_client.is_playing() or self.lock.locked():
             return
 
         # Make a volume string to feed to ffmpeg 
         volumestr = ' -filter:a "volume=%s"' % self.volume
 
         # This lock is the key to having only one entry being played at once
-        with await self.lock:
+        await self.lock.acquire()
+        if 1:
             now = self.playlist.entries[self.index]
             with await now['lock']:
 
@@ -297,7 +298,7 @@ class Player:
     # will be served before autoplay_manager is called
     async def real_next(self):
         self.state = 'switching'
-
+        self.lock.release()
         if len(collections.deque(islice(self.playlist.entries, self.index, len(self.playlist.entries) - 1))) > 0:
             if not self.repeat and not self.justjumped:
                 self.index += 1
@@ -318,12 +319,11 @@ class Player:
             self.index += 1
             self.state = 'stopped'
 
-            # Following some minimal scraping, autoplay links are pulled
-
+    # Following some minimal scraping, autoplay links are pulled
     # at times this might be empty so we just get the other entries below it,
     # Livestreams haven't been implemented yet and i wouldn't want a livestream
     # to interrupt anyone's exploration of youtube either way, so a quick check
-    # if the live label exists on the item exists or not, the entry to be queued
+    # if the live label on the item exists or not, the entry to be queued
     # is determined.
     async def autoplay_manager(self):
         if self.death:

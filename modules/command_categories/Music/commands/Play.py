@@ -73,7 +73,7 @@ class Play(Command):
             print(dir(vc.ws))
             mplayer = player.Player(bot, vc, pl)
             bot.players[message.guild] = mplayer
-        with await mplayer.qlock:
+        with await mplayer.qlock, message.channel.typing():
             print('\nplay got download lock\n')
             if 'watch?' in song_name:
                 info = await bot.downloader.extract_info(bot.loop, song_name, download=False, process=False,
@@ -90,18 +90,19 @@ class Play(Command):
                 await preparing_msg.edit("Your playlist was added!")
             else:
                 if not searchmode:
-                    info = await bot.downloader.extract_info(bot.loop, 'ytsearch1:' + song_name, download=False,
+                    info = await bot.downloader.extract_info(bot.loop, 'ytsearch1:'+song_name, download=False,
                                                              process=True, retry_on_error=True)
-                    print(info['entries'][0]['thumbnails'])
                     entry, position = mplayer.playlist.add(info['entries'][0]['webpage_url'], message.author,
                                                            message.channel, info['entries'][0]['title'],
                                                            info['entries'][0]['duration'], effect,
                                                            info['entries'][0]['thumbnails'][0]['url'], song_name)
                 else:
-                    info = await ytsearch(bot, message, song_name)
+                    song = await ytsearch(bot, message, song_name)
+                    info = await bot.downloader.extract_info(bot.loop, song[1], download=False, process=False,
+                                                             retry_on_error=True)
                     entry, position = mplayer.playlist.add(info['webpage_url'], message.author, message.channel,
                                                            info['title'], info['duration'], effect, info['thumbnail'],
                                                            song_name)
                 await message.channel.send("**%s** was added to the queue at position %s, %s" % (
                     entry['title'], position, mplayer.playlist.estimate_time(position, mplayer)))
-            await mplayer.prepare_entry(position - 1)
+            bot.loop.create_task(mplayer.prepare_entry(position - 1))

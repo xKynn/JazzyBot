@@ -13,9 +13,7 @@ ytdl_format_options = {
     'ignoreerrors': False,
     'logtostderr': False,
     'quiet': True,
-    'no_warnings': True,
-    'default_search': 'auto',
-    'source_address': '0.0.0.0'
+    'no_warnings': True
 }
 youtube_dl.utils.bug_reports_message = lambda: ''
 class Downloader:

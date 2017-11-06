@@ -3,7 +3,7 @@ from modules.utils.decorators import needsvoice
 import discord
 class Testo(Command):
     name = "testo"
-    alts = [""]
+    alts = []
     helpstring ="""Skips the current song when enough votes are cast. (50% votes)
         Usage:
             <prefix>skip
@@ -11,4 +11,6 @@ class Testo(Command):
     @staticmethod
     @needsvoice
     async def main(bot, message):
-        pass
+            x = await bot.application_info()
+            print(x)
+            print(dir(x))

@@ -2,7 +2,7 @@ from modules.base.command import Command
 from modules.utils.decorators import needsvoice
 class Repeat(Command):
     name = "repeat"
-    alts = [""]
+    alts = []
     helpstring ="""Repeats the current song.
            Usage:
                <prefix>repeat

@@ -19,7 +19,7 @@ class Seek(Command):
     async def main(bot, message):
         player = bot.players[message.guild]
         duration = player.current_entry['duration']
-        timelist = shlex.split(message.content)[1].split(':')
+        timelist = message.content.split()[1].split(':')
         if not len(timelist) == 3:
             await SMexHandler.handle(bot,ServerManPrettyException( "Read ;help seek\nto find out how to use this command","Incorrect format!", message.channel))    
         seek_seconds = int(timelist[0])*60*60 + int(timelist[1])*60 + int(timelist[2])

@@ -37,6 +37,6 @@ class NP(Command):
             np_embed.add_field(name='Progress', value=prog_str)
             np_embed.set_image(url=player.current_entry['thumb'])
             np_embed.set_author(name='Now Playing', icon_url=player.current_entry['author'].avatar_url)
-            await message.channel.send(embed=np_embed)
+            await message.channel.send(embed=np_embed, delete_after=None)
         else:
             await message.channel.send("Nothing is playing!")

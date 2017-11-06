@@ -16,14 +16,14 @@ class Playlist:
         shuffle(self.entries)
 
     def clear(self):
-           self.entries.clear()
+        self.entries.clear()
 
     def repeat(self):
         l = deque()
         for m in self.entries:
-         l.append(m)
+            l.append(m)
         for x in l:
-         self.entries.append(x)
+            self.entries.append(x)
 
     def remove(self, index):
         self.entries.remove(self.entries[index-1])

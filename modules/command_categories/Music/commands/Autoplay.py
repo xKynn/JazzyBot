@@ -1,10 +1,13 @@
 from modules.base.command import Command
 from modules.utils.decorators import needsvoice
+
+
 class Autoplay(Command):
     name = "autoplay"
     alts = []
     oneliner = "Auto queue songs based on the last song in queue"
-    help = "The command works like a toggle, so if you turned autoplay on by using `<prefix>autoplay`, using the same command again will disable it."
+    help = "The command works like a toggle, so if you turned autoplay on by using `<prefix>autoplay`, using the same " \
+           "command again will disable it. "
     examples = "`<prefix>autoplay` - Turns autoplay on"
     options = "None"
 

@@ -24,5 +24,5 @@ class Disconnect(Command):
             return
         await bot.vc_clients.pop(message.guild).disconnect()
         em = discord.Embed(title="Disconnected", description="by " + message.author.mention)
-        em.set_image(url="https://i.imgur.com/BkrB9E3.png")
-        await message.chanel.send(embed=em)
+        em.set_thumbnail(url="https://i.imgur.com/BkrB9E3.png")
+        await message.channel.send(embed=em)

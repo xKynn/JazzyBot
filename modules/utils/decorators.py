@@ -51,12 +51,11 @@ def needsvoice(func):
       try:
           if orig_msg.author.voice.channel == orig_msg.guild.voice_client.channel:
               return await func(bot, message,*args, **kwargs)
-      except:
+      except AttributeError:
           pass
       np_embed = discord.Embed(title = 'Error',description = "You need to be in the bot's voice channel to use this command!" , colour=0xffffff )
       np_embed.set_thumbnail(url = 'https://imgur.com/B9YlwWt.png')
-      await orig_msg.channel.send(embed=np_embed)
-      return
+      return await orig_msg.channel.send(embed=np_embed)
     else:
       return await func(bot, message,*args, **kwargs)
   return wrapper

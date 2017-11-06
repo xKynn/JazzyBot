@@ -13,7 +13,7 @@ class Volume(Command):
     @staticmethod
     async def main(bot, message):
         player = bot.players[message.guild]
-        volume = float(shlex.split(message.content)[1])
+        volume = float(message.content.split()[1])
         if volume<=2.0 and volume>=0:
             player.volume = volume
             await send(bot,"Volume changed!", ":loud_sound: New volume is %s"%volume,0xCCD6DD,message.channel)

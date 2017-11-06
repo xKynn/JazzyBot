@@ -1,3 +1,4 @@
+import asyncio
 import discord
 
 from modules.base.command import Command
@@ -24,8 +25,13 @@ class Join(Command):
             return
         try:
             vc = await message.author.voice.channel.connect(timeout=6, reconnect=True)
-        except:
-            np_embed = discord.Embed(title='Error', colour=0xffffff)
+        except asyncio.TimeoutError:
+            np_embed = discord.Embed(title='Error', description="Connecting failed!\nPlease try again.", colour=0xffffff)
+            np_embed.set_thumbnail(url='https://imgur.com/B9YlwWt.png')
+            await trying_msg.edit(embed=np_embed)
+            return
+        except discord.ClientException:
+            np_embed = discord.Embed(title='Error', description="Bot is already connected!", colour=0xffffff)
             np_embed.set_thumbnail(url='https://imgur.com/B9YlwWt.png')
             await trying_msg.edit(embed=np_embed)
             return
